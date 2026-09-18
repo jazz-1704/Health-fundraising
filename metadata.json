@@ -1,0 +1,6 @@
+{
+  "name": "Urgent Medical Support for Mrs. Nirmala D",
+  "description": "Urgent medical fundraising campaign to support life-saving Aortic Valve Replacement Surgery for Mrs. Nirmala D at Kauvery Hospital, Chennai.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

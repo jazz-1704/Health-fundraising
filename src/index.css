@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+@layer base {
+  html {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* Print Styles for PC/Desktop/Tablet printing & Save to PDF */
+@media print {
+  header,
+  aside,
+  #share,
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 12pt !important;
+  }
+
+  section {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    page-break-inside: avoid;
+  }
+
+  #donate {
+    background: #ffffff !important;
+    page-break-before: auto;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+}
