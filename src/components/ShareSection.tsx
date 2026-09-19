@@ -15,7 +15,7 @@ export function ShareSection({ onCopy }: ShareSectionProps) {
   
   const currentUrl = typeof window !== 'undefined' ? window.location.href : 'https://urgent-medical-support.org';
 
-  const fullShareMessage = `${shareText}\n\nBank Transfer: Indian Bank, A/c: 7311261290, IFSC: IDIB000C022 (Karunakaran M)\nUPI ID: karan2301.m@okicici (8939145849)\n\nLink: ${currentUrl}`;
+  const fullShareMessage = `${shareText}\n\nBank Transfer: Indian Bank, A/c: 7311261290, IFSC: IDIB000C022 (Karunakaran M)\nUPI (Karunakaran M): karan2301.m@okicici (8939145849)\nPatient UPI (Nirmala Mani): nirmalamanishangaran@oksbi\n\nCampaign Link: ${currentUrl}`;
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(currentUrl).then(() => {

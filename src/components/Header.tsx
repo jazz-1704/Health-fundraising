@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Heart, ShieldCheck, ArrowRight, Menu, X, Printer, Share2 } from 'lucide-react';
+import { Heart, ShieldCheck, ArrowRight, Menu, X, Share2 } from 'lucide-react';
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -10,10 +10,6 @@ export function Header() {
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
     }
-  };
-
-  const handlePrint = () => {
-    window.print();
   };
 
   return (
@@ -65,17 +61,6 @@ export function Header() {
 
         {/* Action Controls */}
         <div className="flex items-center gap-2 sm:gap-3">
-          {/* Print button for desktop/laptops */}
-          <button
-            type="button"
-            onClick={handlePrint}
-            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200 transition-colors cursor-pointer"
-            title="Print or Save PDF"
-          >
-            <Printer className="w-3.5 h-3.5" />
-            <span className="hidden md:inline">Print Appeal</span>
-          </button>
-
           {/* Quick Donate CTA */}
           <button
             onClick={() => scrollToSection('donate')}
@@ -128,20 +113,13 @@ export function Header() {
             </button>
           </div>
 
-          <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-            <button
-              onClick={handlePrint}
-              className="inline-flex items-center gap-1.5 text-slate-600 py-1"
-            >
-              <Printer className="w-3.5 h-3.5" />
-              <span>Print / Save PDF Appeal</span>
-            </button>
+          <div className="pt-2 border-t border-slate-100 flex items-center justify-end text-xs text-slate-500">
             <button
               onClick={() => scrollToSection('share')}
               className="inline-flex items-center gap-1 text-slate-600 py-1"
             >
               <Share2 className="w-3.5 h-3.5" />
-              <span>Share</span>
+              <span>Share Appeal</span>
             </button>
           </div>
         </div>
