@@ -9,7 +9,6 @@ import {
   Smartphone, 
   ExternalLink, 
   Heart, 
-  Info, 
   Download,
   UserCheck
 } from 'lucide-react';
@@ -22,6 +21,7 @@ interface DonationSectionProps {
 
 export function DonationSection({ onCopy }: DonationSectionProps) {
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
+  const [selectedBank, setSelectedBank] = useState<'sbi' | 'indian'>('sbi');
   const [qrOption2Url, setQrOption2Url] = useState<string>('');
   const [qrOption3Url, setQrOption3Url] = useState<string>('');
 
@@ -100,12 +100,25 @@ export function DonationSection({ onCopy }: DonationSectionProps) {
     link.click();
   };
 
-  const bankDetails = [
-    { label: 'Bank Name', value: 'Indian Bank', key: 'bank_name', copyable: false },
-    { label: 'Account Holder', value: 'Karunakaran M', key: 'account_holder', copyable: true },
-    { label: 'Account Number', value: '7311261290', key: 'account_number', copyable: true },
-    { label: 'IFSC Code', value: 'IDIB000C022', key: 'ifsc_code', copyable: true },
+  // SBI Account Details (Requested)
+  const sbiBankDetails = [
+    { label: 'Bank Name', value: 'SBI (State Bank of India)', key: 'sbi_bank_name', copyable: false },
+    { label: 'Branch', value: 'SBI Royapettah Chennai', key: 'sbi_branch', copyable: true },
+    { label: 'Account Number', value: '34542533938', key: 'sbi_account_number', copyable: true },
+    { label: 'IFSC Code', value: 'SBIN0001793', key: 'sbi_ifsc_code', copyable: true },
+    { label: 'Account Holder', value: 'Nirmala Mani', key: 'sbi_account_holder', copyable: true },
   ];
+
+  // Indian Bank Details
+  const indianBankDetails = [
+    { label: 'Bank Name', value: 'Indian Bank', key: 'indian_bank_name', copyable: false },
+    { label: 'Branch', value: 'Chennai Central / Vadapalani', key: 'indian_branch', copyable: false },
+    { label: 'Account Holder', value: 'Karunakaran M', key: 'indian_account_holder', copyable: true },
+    { label: 'Account Number', value: '7311261290', key: 'indian_account_number', copyable: true },
+    { label: 'IFSC Code', value: 'IDIB000C022', key: 'indian_ifsc_code', copyable: true },
+  ];
+
+  const currentBankList = selectedBank === 'sbi' ? sbiBankDetails : indianBankDetails;
 
   return (
     <section id="donate" className="py-14 sm:py-20 md:py-24 bg-slate-50/70 border-b border-slate-100">
@@ -121,7 +134,7 @@ export function DonationSection({ onCopy }: DonationSectionProps) {
             How You Can Help
           </h2>
           <p className="mt-2.5 text-slate-600 text-sm sm:text-base leading-relaxed">
-            Choose either direct Bank Transfer, UPI to coordinator Karunakaran M, or Direct Patient UPI to Nirmala Mani.
+            Choose direct Bank Transfer (SBI / Indian Bank), UPI to coordinator Karunakaran M, or Direct Patient UPI to Nirmala Mani.
           </p>
         </div>
 
@@ -148,7 +161,7 @@ export function DonationSection({ onCopy }: DonationSectionProps) {
           >
             <div>
               {/* Card Header */}
-              <div className="flex items-center justify-between gap-3 mb-5 pb-4 border-b border-slate-100">
+              <div className="flex items-center justify-between gap-3 mb-4 pb-3.5 border-b border-slate-100">
                 <div className="flex items-center gap-2.5 min-w-0">
                   <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-700 shrink-0">
                     <Building2 className="w-5 h-5" />
@@ -168,21 +181,49 @@ export function DonationSection({ onCopy }: DonationSectionProps) {
                 </span>
               </div>
 
-              <p className="text-xs sm:text-sm text-slate-500 mb-5 leading-relaxed">
-                Direct NEFT / IMPS / RTGS transfer from any Indian banking portal or branch.
+              {/* Bank Account Selector Tabs */}
+              <div className="flex rounded-xl bg-slate-100 p-1 mb-4">
+                <button
+                  type="button"
+                  onClick={() => setSelectedBank('sbi')}
+                  className={`flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                    selectedBank === 'sbi'
+                      ? 'bg-white text-slate-900 shadow-xs'
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  SBI (Royapettah)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSelectedBank('indian')}
+                  className={`flex-1 py-1.5 px-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                    selectedBank === 'indian'
+                      ? 'bg-white text-slate-900 shadow-xs'
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  Indian Bank
+                </button>
+              </div>
+
+              <p className="text-xs text-slate-500 mb-4 leading-relaxed">
+                {selectedBank === 'sbi' 
+                  ? 'State Bank of India account at Royapettah Chennai branch:' 
+                  : 'Indian Bank account transfer details:'}
               </p>
 
               {/* Bank Details Table */}
-              <div className="space-y-3">
-                {bankDetails.map((field) => {
+              <div className="space-y-2.5">
+                {currentBankList.map((field) => {
                   const isCopied = copiedKey === field.key;
                   return (
                     <div
                       key={field.key}
-                      className="p-3 rounded-xl bg-slate-50 border border-slate-100 hover:border-slate-200 transition-colors flex items-center justify-between gap-2"
+                      className="p-2.5 sm:p-3 rounded-xl bg-slate-50 border border-slate-100 hover:border-slate-200 transition-colors flex items-center justify-between gap-2"
                     >
                       <div className="min-w-0 flex-1">
-                        <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
+                        <span className="text-[10px] sm:text-[11px] font-semibold text-slate-500 uppercase tracking-wider block">
                           {field.label}
                         </span>
                         <span className="text-xs sm:text-sm md:text-base font-bold text-slate-900 tracking-tight font-mono break-all select-all block mt-0.5">
@@ -194,7 +235,7 @@ export function DonationSection({ onCopy }: DonationSectionProps) {
                         <button
                           type="button"
                           onClick={() => handleCopy(field.value, field.label, field.key)}
-                          className={`shrink-0 inline-flex items-center justify-center gap-1.5 px-2.5 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer min-h-[40px] min-w-[70px] ${
+                          className={`shrink-0 inline-flex items-center justify-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer min-h-[38px] ${
                             isCopied
                               ? 'bg-emerald-600 text-white shadow-xs'
                               : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 hover:border-slate-300 shadow-2xs'
@@ -221,17 +262,22 @@ export function DonationSection({ onCopy }: DonationSectionProps) {
               </div>
             </div>
 
-            <div className="mt-6 pt-4 border-t border-slate-100 flex flex-col xs:flex-row items-start xs:items-center justify-between gap-2 text-xs text-slate-500">
+            <div className="mt-5 pt-3.5 border-t border-slate-100 flex flex-col xs:flex-row items-start xs:items-center justify-between gap-2 text-xs text-slate-500">
               <span className="flex items-center gap-1.5 text-slate-600">
                 <CreditCard className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                <span>Branch: Chennai Central</span>
+                <span>{selectedBank === 'sbi' ? 'SBI Royapettah Chennai' : 'Indian Bank Chennai'}</span>
               </span>
               <button
-                onClick={() => handleCopy('Indian Bank\nAccount: 7311261290\nIFSC: IDIB000C022\nHolder: Karunakaran M', 'All Bank Details', 'all_bank')}
+                onClick={() => {
+                  const text = selectedBank === 'sbi'
+                    ? 'State Bank of India (SBI)\nBranch: SBI Royapettah Chennai\nAccount Number: 34542533938\nIFSC: SBIN0001793\nAccount Holder: Nirmala Mani'
+                    : 'Indian Bank\nAccount: 7311261290\nIFSC: IDIB000C022\nHolder: Karunakaran M';
+                  handleCopy(text, selectedBank === 'sbi' ? 'SBI Bank Details' : 'Indian Bank Details', 'all_active_bank');
+                }}
                 className="text-sky-700 hover:text-sky-800 font-medium inline-flex items-center gap-1 cursor-pointer py-1"
               >
                 <Copy className="w-3 h-3" />
-                <span>Copy all</span>
+                <span>Copy {selectedBank === 'sbi' ? 'SBI' : 'Indian Bank'} info</span>
               </button>
             </div>
           </motion.div>
@@ -381,11 +427,11 @@ export function DonationSection({ onCopy }: DonationSectionProps) {
               <div className="mt-3.5">
                 <a
                   href={upiOption2Uri}
-                  className="w-full inline-flex items-center justify-center gap-1.5 bg-slate-900 hover:bg-slate-800 active:bg-black text-white py-2.5 px-3 rounded-xl text-xs font-semibold transition-colors shadow-xs min-h-[42px] cursor-pointer"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-rose-500 hover:bg-rose-600 active:bg-rose-700 text-white py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition-all shadow-sm shadow-rose-200 min-h-[44px] cursor-pointer"
                 >
-                  <Smartphone className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>Tap to Pay with UPI App</span>
-                  <ExternalLink className="w-3 h-3 text-slate-400" />
+                  <Smartphone className="w-4 h-4 text-white shrink-0" />
+                  <span className="font-bold tracking-wide">Tap to Pay with UPI App</span>
+                  <ExternalLink className="w-3.5 h-3.5 text-white/90 shrink-0" />
                 </a>
               </div>
             </div>
@@ -537,11 +583,11 @@ export function DonationSection({ onCopy }: DonationSectionProps) {
               <div className="mt-3.5">
                 <a
                   href={upiOption3Uri}
-                  className="w-full inline-flex items-center justify-center gap-1.5 bg-sky-700 hover:bg-sky-800 active:bg-sky-900 text-white py-2.5 px-3 rounded-xl text-xs font-semibold transition-colors shadow-xs min-h-[42px] cursor-pointer"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-rose-500 hover:bg-rose-600 active:bg-rose-700 text-white py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition-all shadow-sm shadow-rose-200 min-h-[44px] cursor-pointer"
                 >
-                  <Smartphone className="w-3.5 h-3.5 text-sky-200" />
-                  <span>Tap to Pay Directly to Nirmala</span>
-                  <ExternalLink className="w-3 h-3 text-sky-200" />
+                  <Smartphone className="w-4 h-4 text-white shrink-0" />
+                  <span className="font-bold tracking-wide">Tap to Pay Directly to Nirmala</span>
+                  <ExternalLink className="w-3.5 h-3.5 text-white/90 shrink-0" />
                 </a>
               </div>
             </div>
